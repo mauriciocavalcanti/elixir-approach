@@ -4,12 +4,27 @@ defmodule Teste do
   """
 
   @doc """
-  Hello world.
+  Finding the first unique char occurrence in a string with elixir lang aspects
 
   ## Examples
 
-      iex> Teste.hello()
-      :world
+      iex> Teste.main("abaabacqweqwe")
+      "first unique occurrence: c"
+
+      iex> Teste.main("aba")
+      "first unique occurrence: b"
+
+      iex> Teste.main("asdqew")
+      "first unique occurrence: a"
+
+      iex> Teste.main("aaaaaaaaaa")
+      "no unique occurrences"
+
+      iex> Teste.main("aaaaaaaaaabbbbbbbbbb")
+      "no unique occurrences"
+
+      iex> Teste.main("asdqweasdqweasdqwe")
+      "no unique occurrences"
 
   """
   def main(string) do
