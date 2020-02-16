@@ -28,8 +28,14 @@ defmodule Teste do
 
   """
   def main(string) do
-    String.codepoints(string)
+    expression = string
+    |> String.codepoints
+
+    expression
     |> first_unique_char_occurrence
+
+    expression
+    |> is_balanced?
   end
 
   def first_unique_char_occurrence([head | tail] = string) do
@@ -45,4 +51,29 @@ defmodule Teste do
       first_unique_char_occurrence(string, tail)
     end
   end
+
+  def is_balanced?(string), do: is_balanced?(string, 0, [])
+
+  def is_balanced?([], 0, _stack), do: true
+
+  def is_balanced?([], _match, _stack), do: false
+
+  def is_balanced?(["(" | tail], match, stack), do: is_balanced?(tail, match + 1, ["(" | stack])
+
+  def is_balanced?([")" | tail], match, [head | stack_tail]) when head == "(", do: is_balanced?(tail, match - 1, stack_tail)
+
+  def is_balanced?([")" | _], _, _), do: false
+
+  def is_balanced?(["[" | tail], match, stack), do: is_balanced?(tail, match + 1, ["[" | stack])
+
+  def is_balanced?(["]" | tail], match, [head | stack_tail]) when head == "[", do: is_balanced?(tail, match - 1, stack_tail)
+
+  def is_balanced?(["]" | _], _, _), do: false
+
+  def is_balanced?(["{" | tail], match, stack), do: is_balanced?(tail, match + 1, ["{" | stack])
+
+  def is_balanced?(["}" | tail], match, [head | stack_tail]) when head == "{", do: is_balanced?(tail, match - 1, stack_tail)
+
+  def is_balanced?(["}" | _], _, _), do: false
+
 end
