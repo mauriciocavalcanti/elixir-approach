@@ -28,8 +28,9 @@ defmodule Teste do
 
   """
   def main(string) do
-    expression = string
-    |> String.codepoints
+    expression =
+      string
+      |> String.codepoints()
 
     expression
     |> first_unique_char_occurrence
@@ -38,7 +39,8 @@ defmodule Teste do
     # |> is_balanced?
   end
 
-  def first_unique_char_occurrence([head | tail] = string), do: first_unique_char_occurrence(string, [head | tail])
+  def first_unique_char_occurrence([head | tail] = string),
+    do: first_unique_char_occurrence(string, [head | tail])
 
   def first_unique_char_occurrence(_, []), do: "no unique occurrences"
 
@@ -58,20 +60,52 @@ defmodule Teste do
 
   def is_balanced?(["(" | tail], match, stack), do: is_balanced?(tail, match + 1, ["(" | stack])
 
-  def is_balanced?([")" | tail], match, [head | stack_tail]) when head == "(", do: is_balanced?(tail, match - 1, stack_tail)
+  def is_balanced?([")" | tail], match, [head | stack_tail]) when head == "(",
+    do: is_balanced?(tail, match - 1, stack_tail)
 
   def is_balanced?([")" | _], _, _), do: false
 
   def is_balanced?(["[" | tail], match, stack), do: is_balanced?(tail, match + 1, ["[" | stack])
 
-  def is_balanced?(["]" | tail], match, [head | stack_tail]) when head == "[", do: is_balanced?(tail, match - 1, stack_tail)
+  def is_balanced?(["]" | tail], match, [head | stack_tail]) when head == "[",
+    do: is_balanced?(tail, match - 1, stack_tail)
 
   def is_balanced?(["]" | _], _, _), do: false
 
   def is_balanced?(["{" | tail], match, stack), do: is_balanced?(tail, match + 1, ["{" | stack])
 
-  def is_balanced?(["}" | tail], match, [head | stack_tail]) when head == "{", do: is_balanced?(tail, match - 1, stack_tail)
+  def is_balanced?(["}" | tail], match, [head | stack_tail]) when head == "{",
+    do: is_balanced?(tail, match - 1, stack_tail)
 
   def is_balanced?(["}" | _], _, _), do: false
 
+  def reverse_words_string(string) do
+    String.split(string, " ")
+    |> Enum.map(fn word -> String.reverse(word) end)
+    |> Enum.join(" ")
+  end
+
+  def is_unique_chars_same_amount?(string) do
+    occurrences =
+      string
+      |> String.codepoints()
+      |> Enum.reduce(%{}, fn char, acc ->
+        Map.update(acc, char, 1, &(&1 + 1))
+      end)
+      |> Map.values()
+
+    Enum.max(occurrences) == Enum.min(occurrences)
+  end
+
+  def first_pair_sum(numbers, sum) do
+    Enum.with_index(numbers)
+    |> Enum.reduce_while([], fn {x, i}, acc ->
+      y = sum - x
+
+      case Enum.find_index(numbers, &(&1 == y)) do
+        nil -> {:cont, acc}
+        j -> {:halt, [Enum.at(numbers, i), Enum.at(numbers, j)]}
+      end
+    end)
+  end
 end
