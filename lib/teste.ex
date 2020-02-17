@@ -97,15 +97,18 @@ defmodule Teste do
     Enum.max(occurrences) == Enum.min(occurrences)
   end
 
-  def first_pair_sum(numbers, sum) do
-    Enum.with_index(numbers)
-    |> Enum.reduce_while([], fn {x, i}, acc ->
-      y = sum - x
+  def first_pair_sum(numbers, sum), do: first_pair_sum(numbers, sum, [])
 
-      case Enum.find_index(numbers, &(&1 == y)) do
-        nil -> {:cont, acc}
-        j -> {:halt, [Enum.at(numbers, i), Enum.at(numbers, j)]}
-      end
-    end)
+  def first_pair_sum([], _sum, _comp), do: "nothing to see here"
+
+  def first_pair_sum([head | tail], sum, []), do: first_pair_sum(tail, sum, [sum - head])
+
+  def first_pair_sum([head | tail], sum, comp) do
+    if Enum.member?(comp, head) do
+      "found pair: [#{head}, #{sum - head}]"
+    else
+      first_pair_sum(tail, sum, comp ++ [sum - head])
+    end
   end
+
 end
