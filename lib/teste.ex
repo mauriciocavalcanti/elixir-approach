@@ -34,13 +34,11 @@ defmodule Teste do
     expression
     |> first_unique_char_occurrence
 
-    expression
-    |> is_balanced?
+    # expression
+    # |> is_balanced?
   end
 
-  def first_unique_char_occurrence([head | tail] = string) do
-    first_unique_char_occurrence(string, [head | tail])
-  end
+  def first_unique_char_occurrence([head | tail] = string), do: first_unique_char_occurrence(string, [head | tail])
 
   def first_unique_char_occurrence(_, []), do: "no unique occurrences"
 
