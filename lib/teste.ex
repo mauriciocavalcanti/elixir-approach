@@ -111,4 +111,13 @@ defmodule Teste do
     end
   end
 
+  def fibonacci(a, _, 1), do: a
+
+  def fibonacci(a, b, n), do: fibonacci(b, a + b, n - 1)
+
+  def fibonacci_list(n), do: fibonacci_list([1, 0], n)
+
+  def fibonacci_list(list, 2), do: Enum.reverse(list)
+
+  def fibonacci_list([first, second | _] = list, n), do: fibonacci_list([first + second | list], n - 1)
 end
